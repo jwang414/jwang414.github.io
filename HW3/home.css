@@ -24,7 +24,7 @@
 }
 
 .navblock{
-    width: 75%;
+    width: 60%;
     height: 100%;
     display: block;
     margin: 0 auto;
@@ -53,16 +53,17 @@
     vertical-align: middle;
 }
 
-.lawyer img{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+.center{ 
+    display: grid;
+    background-color: black;
+}
+.center img{
+    place-items: center;
 }
 
 .sign_up{
-    display: block;
-    width: 100px;
-    height: 100px;
+    grid-column: 1/5;
     background-color: blue;
 }
+
 
