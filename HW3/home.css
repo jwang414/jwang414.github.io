@@ -5,65 +5,48 @@
     text-decoration: none;
 }
 .bar{
+    padding-top: 30px;
     width: 100%;
-    height: 80px;
+    height: 150px;
     display: block;
-    background-color: white;
-
-}
-.menu{
-    height: 100%;
-    display: table;
-    float: left;
-}
-.menu h3{
-    height: 100%;
-    display: table-cell;
-    vertical-align: middle;
     
 }
 
 .navblock{
-    width: 60%;
+    width: 800px;
     height: 100%;
     display: block;
-    margin: 0 auto;
-    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: solid;
+    border-color: black;   
+}
+.name{
+    padding-top: 15px;
+    font-size: xx-large;
+    text-align: center;
+    padding-bottom: 15px;
 }
 
 .icons{
-    float: right;
-    height: 100%;
+    height: 75%;
+    padding-left: 15%;
 }
-.icons a:last-of-type{
-    margin-right: 0;
-}
-
 
 .icons a{
-    height: 100%;
     display: table;
-    float: right;
+    float: left;
     padding: 0px 20px;
-    
+
+}
+.pictures{
+    padding-top: 100px;
+}
+.pictures img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.icons a li{
-    display: table-cell;
-    vertical-align: middle;
-}
-
-.center{ 
-    display: grid;
-    background-color: black;
-}
-.center img{
-    place-items: center;
-}
-
-.sign_up{
-    grid-column: 1/5;
-    background-color: blue;
-}
 
 
