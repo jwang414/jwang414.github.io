@@ -13,8 +13,8 @@
 }
 
 .navblock{
-    width: 800px;
-    height: 100%;
+    width: 700px;
+    height: 80%;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -23,21 +23,24 @@
 }
 .name{
     padding-top: 15px;
-    font-size: xx-large;
     text-align: center;
-    padding-bottom: 15px;
+    padding-bottom: 5px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 50px;
 }
+
 
 .icons{
     width: 50%;
     height: 35%;
-    padding-left: 32%;
+    padding-left: 35%;
+    font-family: Georgia, 'Times New Roman', Times, serif; 
 }
 
 .icons a{
     display: table;
     float: left;
-    padding: 0px 20px;
+    padding: 0px 10px;
 
 }
 .pictures{
@@ -48,9 +51,9 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
-    object-fit: cover;
-    width: 900px;
-    height: 1000px;
+    object-fit:cover;
+    width: 800px;
+    height: 800px;
     padding-bottom: 15px;
 }
 .bottom{
@@ -59,9 +62,11 @@
     padding: 25px;
 }
 .contact{
-    padding-top: 15px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: small;
+    padding-top: 10px;
     text-align: center;
-    padding-bottom: 15px;
+    padding-bottom: 10px;
 }
 .logos{
     text-align: center;
@@ -69,7 +74,7 @@
 }
 .logos a{
     padding: 10px;
-    
+    max-width: 12px;
 }
 
 
