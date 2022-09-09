@@ -26,6 +26,7 @@
     padding-bottom: 5px;
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 50px;
+    
 }
 
 
@@ -35,13 +36,19 @@
     padding-left: 35%;
     font-family: Georgia, 'Times New Roman', Times, serif; 
     font-size: 13px;
+    
 }
 
 .icons a{
     display: table;
     float: left;
     padding: 0px 10px;
+    color: grey;
 
+}
+
+.icons :hover{
+    color: black;
 }
 .pictures{
     padding-top: 50px;
