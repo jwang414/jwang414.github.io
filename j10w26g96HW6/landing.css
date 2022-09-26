@@ -1,0 +1,10 @@
+.boarder{
+    width: 100%;
+    
+    height: 600px;
+    text-align: center;
+}
+.main {
+    background-color: grey;
+
+}
