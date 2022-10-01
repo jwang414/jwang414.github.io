@@ -8,45 +8,69 @@
         <link rel="stylesheet" href="landing.css">
         <script type="text/javascript" src="info.js"></script>
     </head>
-    <body>
+    <body class = "body">
         <div class = "boarder">
-            <div class = "main">
-            <form method = post>
-                <h2>
-                    Keyword*
-                </h2>
-                <label for = "keyword"></label>
-                <input type = text id="keyword" name = "keyword" required>
-                <h2>
-                    Category*
-                </h2>
-                <label for="category"></label>
-                <select name="category" id="category">
-                    <option value="default">Default</option>
-                    <option value="arts">Arts & Entertainment</option>
-                    <option value="health">Health & Medical</option>
-                    <option value="travel">Hotels & Travel</option>
-                    <option value="food">Food</option>
-                    <option value="professional">Professional Services</option>
-                </select>
-                <h2>
-                    Distance(miles)
-                </h2>
-                <label for = "distance"></label>
-                <input type = text id="distance" name = "distance">
-                <h2>
-                    Location*
-                </h2>
-                <label for = "location"></label>
-                <input type = text id="location" name = "location" required>
-                <br></br>
-                <label for= "locationCheck">Want us to auto-detect your location? Check here </label> 
-                <input type= "checkbox" id="locationCheck" onclick="checkLocation()">
-                <br></br>
-                <button id = "submitButton" onclick = "getInfo()">Submit</button>
-                <br></br>
-                <button onclick= "clearInfo()" >Clear</button>
+            <div class = "mainBlock">
+                <div class = "header">
+                    <h3 class = "title1">
+                        Business Search
+                    </h3>
+                    <h4 class = "title2">
+                        Fill out the form to get business near you!
+                    </h4>
+                </div>
+                <div class = "info">
+                    <form method = post>
+                        <div>
+                            <h5>
+                                Keyword<span class="asterisk">*</span>
+                            </h5>
+                            <label for = "keyword"></label>
+                            <input type = text id="keyword" name = "keyword" required style="width: 100%;">
+                        </div>
+                        <div class="dis_and_cat">
+                            <div class = "distanceField">
+                                <h5>
+                                    Distance(miles)
+                                </h5>
+                                <label for = "distance"></label>
+                                <input type = text id="distance" name = "distance">
+                            </div>
+                            <div class = "categoryField">
+                                <h5>
+                                    Category<span class="asterisk">*</span>
+                                </h5>
+                                <label for="category"></label>
+                                <select name="category" id="category">
+                                    <option value="default">Default</option>
+                                    <option value="arts">Arts & Entertainment</option>
+                                    <option value="health">Health & Medical</option>
+                                    <option value="travel">Hotels & Travel</option>
+                                    <option value="food">Food</option>
+                                    <option value="professional">Professional Services</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class = "loc_div">
+                            <h5>
+                                Location<span class="asterisk">*</span>
+                            </h5>
+                            <label for = "location"></label>
+                            <input type = text id="location" name = "location" required style="width: 100%;">
+                            <br></br>
+                            <div class = "bar"></div>
+                            
+                            <label for= "locationCheck">Want us to auto-detect your location? Check here </label>
+                            <input type= "checkbox" id="locationCheck" onclick="checkLocation()">
+                            <br></br>
+                        </div>
+                        <div class = "buttons">
+                            <button class = "submitButton" id = "submitButton" onclick = "getInfo()">Submit</button>
+                            <button class = "clearButton" onclick= "clearInfo()" >Clear</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            </form>
+            
         </div>
     </body>
