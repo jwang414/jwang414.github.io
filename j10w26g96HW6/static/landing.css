@@ -1,0 +1,111 @@
+*{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.body{
+    background-color: lightgrey;
+}
+.boarder{
+    padding-top: 20px;
+    display: block;
+}
+.mainBlock {
+    width: 500px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: solid;
+    border-color: grey;
+    background-color: white;
+}
+.header{
+    height: 110px;
+    background-image: url(images/banner.jpeg);
+    background-size: cover;
+    background-position: bottom;
+}
+.title1{
+    color: white;
+    padding-left: 30px;
+    padding-top: 20px;
+}
+.title2{
+    color: white;
+    padding-left: 30px;
+    padding-top: 20px;
+    font-weight: normal;
+}
+
+.info{
+    padding: 30px;
+    padding-top: 20px;
+}
+.info h5{
+    color:#4f6fad;
+}
+.info h5 .asterisk{
+    color:red;
+}
+
+input{
+    height: 25px;
+    border-color: lightgrey;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+input[type=checkbox] {
+    vertical-align: middle;
+    position: relative;
+    bottom: 1px;
+}
+.info h5{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.dis_and_cat .categoryField,
+.dis_and_cat .distanceField{
+    width: 50%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.distanceField{
+    float: left;
+}
+.categoryField{
+    float: right;
+}
+.categoryField select{
+    border: 1px solid #ccc;
+    height: 25px;
+    width: 100%;
+}
+.bar{
+    background-color: #4f6fad;
+    width: 100%;
+    height: 1px;
+}
+
+.loc_div label{
+    
+    color: #4f6fad;
+}
+.buttons .submitButton{
+    color: white;
+    width: 100px;
+    height: 30px;
+    background-color: #4f6fad;
+    border-color: #4f6fad;
+}
+
+.clearButton{
+    color: white;
+    width: 100px;
+    height: 30px;
+    background-color: #ffb706;
+    border: 1px solid black
+    
+}
