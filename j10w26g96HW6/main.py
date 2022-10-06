@@ -1,45 +1,98 @@
 from cgitb import text
-from flask import Flask, request
+from distutils.log import info
+from symbol import parameters
+from flask import Flask, jsonify, request
 import json
 import requests
 
 app = Flask(__name__)
 YELP_API = "8QcHHs6tX63AN9N80u5hL284BRPTvlTKebHNJIKldN8l_7PBxxwSYK_7GdlFyAh_oHQS0SlLesdT6vHN4gimOB4nQmigbGqKojgBe3ZPazAkpNUd_tSyjiKVfE89Y3Yx"
 
-DEFAULT_PARAMETERS = {
+parameters = {
     "term": "",
-    "radius": 16093,  # 10 miles
-    "categories": "all",
+    "distance": 16093,  # 10 miles
+    "category": "all",
     "latitude": 34.0522342,
     "longitude": -118.2436849
 }
+
 YELP_API = "Bearer 8QcHHs6tX63AN9N80u5hL284BRPTvlTKebHNJIKldN8l_7PBxxwSYK_7GdlFyAh_oHQS0SlLesdT6vHN4gimOB4nQmigbGqKojgBe3ZPazAkpNUd_tSyjiKVfE89Y3Yx"
 BUSINESS_ENDPOINT = "https://api.yelp.com/v3/businesses/search"
 HEADERS = {'Authorization': YELP_API}
 
 
-@app.route('/', methods=['GET'])
+@app.route('/')
+def landing_page():
+    return app.send_static_file('landing.html')
+
+
+@app.route('/search', methods=['GET'])
 def business_search():
+    get_parameters()
     response = requests.get(url=BUSINESS_ENDPOINT,
-                            params=DEFAULT_PARAMETERS, headers=HEADERS)
+                            params=parameters, headers=HEADERS)
     received_data = json.loads((response).text)
-    return json.dumps(received_data)
+    business_list = business_parse(received_data)
+    if not len(business_list):
+        return "No businesses"
+    print(business_list)
+    return json.dumps(business_list)
 
 
 #####helper functions######
+def business_parse(received_data):
+    business_list = []
+    for b in received_data["businesses"]:
+        try:
+            name = b['name']
+        except Exception:
+            name = ''
+        try:
+            url = b['url']
+        except Exception:
+            url = ''
+        try:
+            image_url = b['image_url']
+        except Exception:
+            image_url = ''
+        try:
+            rating = b['rating']
+        except Exception:
+            rating = ''
+        try:
+            distance = str(convert_meters_to_miles(b['distance']))
+        except Exception:
+            distance = str(10)
+        business = {
+            "name": name,
+            "url": url,
+            "image_url": image_url,
+            "rating": rating,
+            "distance": distance,
+        }
+        business_list.append(business)
+
+    return business_list
+
 
 def convert_miles_to_meters(miles):
-    return round(miles/1609.34, 2)
+    temp = float(miles)
+    return round(temp*1609.34, 2)
+
+
+def convert_meters_to_miles(meters):
+    temp = float(meters)
+    return round(temp/1609.34, 2)
 
 
 def get_parameters():
-    return None
+    parameters["term"] = request.args.get('keyword')
+    parameters["distance"] = convert_miles_to_meters(
+        request.args.get('distance'))
+    parameters["category"] = request.args.get('category')
+    parameters["latitude"] = request.args.get('latitude')
+    parameters["longitude"] = request.args.get('longitude')
 
 
 if __name__ == '__main__':
-    # This is used when running locally only. When deploying to Google App
-    # Engine, a webserver process such as Gunicorn will serve the app. You
-    # can configure startup instructions by adding `entrypoint` to app.yaml.
     app.run(host='127.0.0.1', port=8080, debug=True)
-# [END gae_python3_app]
-# [END gae_python38_app]

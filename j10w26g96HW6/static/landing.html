@@ -3,10 +3,10 @@
     <head>
         <meta charset="utf-8">
         <title>
-            Landing Page
+            Home Page
         </title>
-        <link rel="stylesheet" href="landing.css">
-        <script type="text/javascript" src="info.js"></script>
+        <link rel="stylesheet" href="static/landing.css">
+        <script type="text/javascript" src="static/info.js"></script>
     </head>
     <body class = "body">
         <div class = "boarder">
@@ -42,7 +42,7 @@
                                 </h5>
                                 <label for="category"></label>
                                 <select name="category" id="category">
-                                    <option value="default">Default</option>
+                                    <option value="all">Default</option>
                                     <option value="arts">Arts & Entertainment</option>
                                     <option value="health">Health & Medical</option>
                                     <option value="travel">Hotels & Travel</option>
@@ -65,7 +65,7 @@
                             <br></br>
                         </div>
                         <div class = "buttons">
-                            <button class = "submitButton" onclick = "getInfo()">Submit</button>
+                            <button class = "submitButton" onclick = "formInfo()">Submit</button>
                             <button class = "clearButton" onclick = "clearInfo()">Clear</button>
                         </div>
                     </form>
