@@ -59,10 +59,10 @@ async function googleLocation(location){
         JSON.stringify(jsonResponse["results"][0]["geometry"]["location"]['lng'])]
 }
 
-var businesses = [];
+
 
 ///////search functions/////
-
+var businesses = [];
 async function searchBusiness() {
     var coordinates = await getLocation();
     info['latitude'] = coordinates[0];
@@ -78,3 +78,24 @@ async function searchBusiness() {
     req.open("GET", passedURL, false);
     req.send();
 }
+
+////////display tables//////
+// function showTable(business_list) {
+//     var table_html = "";
+//     if (business_list.length == 0) {
+//         table_html = "<div class=\"bottom-line\"><div class=\"no-record\"><h2>No Business have been found</h2></div></div>";
+//     }
+//     else {
+//         table_html += "<table border=\"2\"";
+//         table_html += "<tr><th>Date</th><th>Icon</th><th>Event</th><th>Genre</th><th>Venue</th></tr>";
+//         for (var i = 0; i < business_list.length; i++) {
+//             var business_list = business_list[i];
+//             table_html += ("<tr><td>" + business_list['name']+ "</td>");
+//             table_html += ("<td><img class=\"icon\" src=\"" + business_list["icon"] + "\" alt=\"icon\"></td>");
+//             table_html += ("<td><a class=\"text-link\" href=\"#event-detail\" onclick=\"showDetail(\'" + event["id"] + "\');\">" + event["event"] + "</a></td>");
+//             table_html += ("<td>" + business_list["genre"] + "</td>");
+//             table_html += ("<td>" + business_list["venue"] + "</td></tr>");
+//         }
+//     }
+//     document.getElementById("event-table").innerHTML = table_html;
+// }
