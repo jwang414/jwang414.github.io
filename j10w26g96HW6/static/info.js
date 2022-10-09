@@ -92,17 +92,16 @@ async function searchBusiness() {
 }
 
 async function searchDetails(business_ID) {
-    // var req = new XMLHttpRequest();
-    // var passedURL = "/search?business_ID=" + business_ID;
-    // req.onreadystatechange = function() {
-    //     if (req.readyState==4 && req.status==200){
-    //         businessesID_details = JSON.parse(req.responseText);
-    //     }
-    // }
-    // req.open("GET", passedURL, false);
-    // req.send();
-    // await createTable(businessesID_details);
-    console.log("hello");
+    var req = new XMLHttpRequest();
+    var passedURL = "/searchDetails?business_ID=" + business_ID;
+    req.onreadystatechange = function() {
+        if (req.readyState==4 && req.status==200){
+            businessesID_details = JSON.parse(req.responseText);
+        }
+    }
+    req.open("GET", passedURL, false);
+    req.send();
+    await createDetailPage(businessesID_details);
 }
 
 ////////display tables//////
@@ -143,4 +142,5 @@ function createHeader(){
     return headers;
 
 }
+
 
