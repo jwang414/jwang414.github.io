@@ -35,7 +35,6 @@ def business_search():
     business_list = business_parse(received_data)
     if not len(business_list):
         return "No businesses"
-    print(business_list)
     return json.dumps(business_list)
 
 
@@ -60,9 +59,9 @@ def business_parse(received_data):
         except Exception:
             rating = ''
         try:
-            distance = str(convert_meters_to_miles(b['distance']))
+            distance = str(convert_miles_to_meters(b['distance']))
         except Exception:
-            distance = str(10)
+            distance = str(16093)
         business = {
             "name": name,
             "url": url,

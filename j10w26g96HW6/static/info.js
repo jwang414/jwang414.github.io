@@ -1,27 +1,36 @@
 info = {};
 const G_API = "&key=AIzaSyC9udwlUi7lFoB2YPa9zBwWDYC3tHtjxp4";
+var businesses_list = [];
 
 
 function formInfo(){
     info['keyword'] = document.getElementById("keyword").value;
     info['category'] = document.getElementById("category").value;
-    info['distance'] = document.getElementById("distance").value;
+    if (document.getElementById("distance").value != ""){
+        info['distance'] = document.getElementById("distance").value;
+    }
+    else{
+        info['distance'] = '10';
+    }
+    
     searchBusiness();
     
 }
 
 function clearInfo(){
-    document.getElementById('keyword').value = '';
+    document.getElementById('keyword').value = "";
     document.getElementById('category').value = "all";
-    document.getElementById('distance').value = '';
-    document.getElementById('locationField').value = '';
+    document.getElementById('distance').value = "";
+    document.getElementById('locationField').value = "";
     document.getElementById("locationCheck").checked = false;
     info = {};
+    document.getElementById("businessList").innerHTML = "";
 }
 
 function locationBox(){
     if (document.getElementById("locationCheck").checked == true){
         document.getElementById("locationField").required = false;
+        document.getElementById("locationField").value = "";
         document.getElementById("locationField").disabled = true;
     }
     else{
@@ -59,10 +68,12 @@ async function googleLocation(location){
         JSON.stringify(jsonResponse["results"][0]["geometry"]["location"]['lng'])]
 }
 
+function convertMeterToMiles(meters){
+    return Math.round(meters / 1609.34) / 100;
+}
 
 
 ///////search functions/////
-var businesses = [];
 async function searchBusiness() {
     var coordinates = await getLocation();
     info['latitude'] = coordinates[0];
@@ -72,30 +83,64 @@ async function searchBusiness() {
     var passedURL = "/search?keyword=" + info['keyword'] + "&distance=" + info['distance'] + "&category=" + info['category'] + "&latitude=" + info['latitude']+ "&longitude=" + info['longitude'];
     req.onreadystatechange = function() {
         if (req.readyState==4 && req.status==200){
-            businesses = JSON.parse(req.responseText);
+            businesses_list = JSON.parse(req.responseText);
         }
     }
     req.open("GET", passedURL, false);
     req.send();
+    await createTable(businesses_list);
+}
+
+async function searchDetails(business_ID) {
+    // var req = new XMLHttpRequest();
+    // var passedURL = "/search?business_ID=" + business_ID;
+    // req.onreadystatechange = function() {
+    //     if (req.readyState==4 && req.status==200){
+    //         businessesID_details = JSON.parse(req.responseText);
+    //     }
+    // }
+    // req.open("GET", passedURL, false);
+    // req.send();
+    // await createTable(businessesID_details);
+    console.log("hello");
 }
 
 ////////display tables//////
-// function showTable(business_list) {
-//     var table_html = "";
-//     if (business_list.length == 0) {
-//         table_html = "<div class=\"bottom-line\"><div class=\"no-record\"><h2>No Business have been found</h2></div></div>";
-//     }
-//     else {
-//         table_html += "<table border=\"2\"";
-//         table_html += "<tr><th>Date</th><th>Icon</th><th>Event</th><th>Genre</th><th>Venue</th></tr>";
-//         for (var i = 0; i < business_list.length; i++) {
-//             var business_list = business_list[i];
-//             table_html += ("<tr><td>" + business_list['name']+ "</td>");
-//             table_html += ("<td><img class=\"icon\" src=\"" + business_list["icon"] + "\" alt=\"icon\"></td>");
-//             table_html += ("<td><a class=\"text-link\" href=\"#event-detail\" onclick=\"showDetail(\'" + event["id"] + "\');\">" + event["event"] + "</a></td>");
-//             table_html += ("<td>" + business_list["genre"] + "</td>");
-//             table_html += ("<td>" + business_list["venue"] + "</td></tr>");
-//         }
-//     }
-//     document.getElementById("event-table").innerHTML = table_html;
-// }
+async function createTable(business_list) {
+    var table_html = "";
+    if (business_list.length == 0) {
+        //need to change the bottom -line stuff
+        table_html = "<div><h3>No Business have been found</h3></div>";
+    }
+    else {
+        table_html = createHeader();
+        // var clickRef = `<a onclick="searchDetails({business["id"]})"</a>`;
+        // table_html += (`<td id = "business_cell" <a onclick="searchDetails({business["id"]})"</a> > ${business['name']} </td>`);
+        
+        
+        for (var i = 0; i < business_list.length; i++) {
+            var business = business_list[i];
+            table_html += (`<tr class = \"rowInfo\" >`);
+            table_html += ("<td id = \"number_cell\">" + parseInt(i+Number(1))  +"</td>");
+            table_html += ("<td><img id= \"image_cell\" src=\"" + business["image_url"] + "\" alt=\"icon\"></td>");
+            table_html += (`<td id = "business_cell" onclick = searchDetails(${business['id']})> ${business['name']} </td>`);
+            table_html += ("<td id = \"rating_cell\">" + business["rating"] + "</td>");
+            table_html += ("<td id = \"distance_cell\">" + convertMeterToMiles(business["distance"]) + "</td>");
+            table_html += `</tr>`;
+        }
+    }
+    table_html += "</table>"
+    document.getElementById("businessList").innerHTML = table_html;
+}
+
+function createHeader(){
+    var table_headers = ["No", "Image", "Business Name", "Rating", "Distance(miles) "]
+    var headers = "<table class= \"sortable\"> <tr class = \"tableHeader\">";
+    for (var i =0; i<table_headers.length; i++){
+        headers += `<th> ${table_headers[i]}</th>`;
+    }
+    headers += "</tr>";
+    return headers;
+
+}
+

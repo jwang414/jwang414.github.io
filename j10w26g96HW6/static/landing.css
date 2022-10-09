@@ -10,7 +10,6 @@
 }
 .boarder{
     padding-top: 20px;
-    display: block;
 }
 .mainBlock {
     width: 500px;
@@ -108,4 +107,56 @@ input[type=checkbox] {
     background-color: #ffb706;
     border: 1px solid black
     
+}
+
+.tableContainer{
+    background-color: white;
+}
+
+.businessTable{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.businessTable table{
+    width: 1500px;
+    text-align: center;
+    margin: 0 auto;
+    border: 1px;
+    border-color: #ccc;
+}
+.businessTable img{
+    width: 150px;
+    height: 150px;
+    object-fit: fill;
+    padding: 5px;
+}
+.tableHeader{
+    background-color: #4f6fad;
+    height: 50px;
+}
+.rowInfo{
+    background-color: white;
+}
+#number_cell{
+    width: 70px;
+}
+#rating_cell{
+    width: 200px;
+}
+#distance_cell{
+    width: 200px;
+}
+
+#image_cell{
+    width: 150px;
+    height: 150px;
+}
+
+#business_cell{
+    width: 1500px;
+}
+#business_cell:hover{
+    width: 1500px;
+    color: #4f6fad;
 }
