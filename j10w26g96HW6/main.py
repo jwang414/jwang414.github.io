@@ -1,8 +1,3 @@
-from cgitb import text
-from distutils.log import info
-from email.mime import image
-from symbol import parameters
-from unicodedata import category
 from flask import Flask, jsonify, request
 import json
 import requests
@@ -11,14 +6,11 @@ app = Flask(__name__)
 YELP_API = "8QcHHs6tX63AN9N80u5hL284BRPTvlTKebHNJIKldN8l_7PBxxwSYK_7GdlFyAh_oHQS0SlLesdT6vHN4gimOB4nQmigbGqKojgBe3ZPazAkpNUd_tSyjiKVfE89Y3Yx"
 
 parameters = {
-    "term": "",
-    "distance": 16093,  # 10 miles
+    "radius": 16093,  # 10 miles
     "category": "all",
-    "latitude": 34.0522342,
-    "longitude": -118.2436849
 }
-detail_parameters = {
-
+details_parameter = {
+    "business_ID": ""
 }
 
 YELP_API = "Bearer 8QcHHs6tX63AN9N80u5hL284BRPTvlTKebHNJIKldN8l_7PBxxwSYK_7GdlFyAh_oHQS0SlLesdT6vHN4gimOB4nQmigbGqKojgBe3ZPazAkpNUd_tSyjiKVfE89Y3Yx"
@@ -48,13 +40,13 @@ def business_search():
 # business details
 
 
-@app.route('/details', methods=['GET'])
-def details_search():
-    detailParameters()
-    response = requests.get(url=DETAILS_ENDPOINT,
-                            params=parameters, headers=HEADERS)
+@app.route('/business_details/<business_ID>', methods=['GET'])
+def details_search(business_ID):
+    response = requests.get(url=DETAILS_ENDPOINT +
+                            str(business_ID), headers=HEADERS)
     received_data = json.loads((response).text)
-    business_list = business_parse(received_data)
+    details_data = details_parse(received_data)
+    return json.dumps(details_data)
 
 
 #####helper functions######
@@ -102,7 +94,7 @@ def business_parse(received_data):
 def details_parse(received_data):
     details = {}
     try:
-        status = received_data['is_closed']
+        status = received_data['hours']["is_open_now"]
         if status is False:
             status = "Closed"
         else:
@@ -117,6 +109,10 @@ def details_parse(received_data):
 
     try:
         location = received_data['location']['address1']
+        location += ' ' + received_data['location']['city']
+        location += ' ' + received_data['location']['zip_code']
+        location += ',' + received_data['location']['state']
+        location += ' ' + received_data['location']['country']
     except Exception:
         location = ''
 
@@ -131,7 +127,10 @@ def details_parse(received_data):
         phone = ''
 
     try:
-        category = ' | '.join(received_data['category'])
+        temp_cat = []
+        for cat in received_data['categories']:
+            temp_cat.append(cat['title'])
+        category = ' | '.join(temp_cat)
     except Exception:
         category = ''
 
@@ -146,7 +145,7 @@ def details_parse(received_data):
         phone = ''
 
     try:
-        image = received_data['image']
+        image = received_data['photos']
     except:
         image = ''
     try:
@@ -164,6 +163,8 @@ def details_parse(received_data):
     details["image"] = image
     details["url"] = url
 
+    return details
+
 
 def convert_miles_to_meters(miles):
     temp = float(miles)
@@ -177,8 +178,9 @@ def convert_meters_to_miles(meters):
 
 def get_parameters():
     parameters["term"] = request.args.get('keyword')
-    parameters["distance"] = convert_miles_to_meters(
-        request.args.get('distance'))
+    if request.args.get('distance') is not "":
+        parameters["distance"] = convert_miles_to_meters(
+            request.args.get('distance'))
     parameters["category"] = request.args.get('category')
     parameters["latitude"] = request.args.get('latitude')
     parameters["longitude"] = request.args.get('longitude')

@@ -21,13 +21,13 @@
                     </h4>
                 </div>
                 <div class = "info">
-                    <form onsubmit="return false">
+                    <form id = "formFields" onsubmit="return false">
                         <div>
                             <h5>
                                 Keyword<span class="asterisk">*</span>
                             </h5>
                             <label for = "keyword"></label>
-                            <input type = text id="keyword" name = "keyword" required style="width: 100%;">
+                            <input type = "text" id="keyword" name = "keyword" required style="width: 100%;">
                         </div>
                         <div class="dis_and_cat">
                             <div class = "distanceField">
@@ -35,7 +35,7 @@
                                     Distance(miles)
                                 </h5>
                                 <label for = "distance"></label>
-                                <input type = text id="distance" name = "distance">
+                                <input type = "text" id="distance" name = "distance">
                             </div>
                             <div class = "categoryField">
                                 <h5>
@@ -66,8 +66,11 @@
                             <br></br>
                         </div>
                         <div class = "buttons">
-                            <button class = "submitButton" onclick = "formInfo()">Submit</button>
-                            <button class = "clearButton" onclick = "clearInfo()">Clear</button>
+                            <a href="#businessList">
+                                <input type="submit" class = "submitButton" id="search-btn" value="Submit" onclick = "formInfo()">
+                            </a>
+                            <input type="button" class = "clearButton" id="search-btn" value="Clear" onclick = "clearInfo()">
+                            
                         </div>
                     </form>
                 </div>
@@ -78,10 +81,10 @@
                 <div class = "businessTable" id = "businessList"> </div>
             </div>
             <br></br>
-            </div class ="tableContainer">
-                <div class = "businessDetails" id = "businessDetails"> </div>
+            
+            </div class ="cardInfoContainer">
+                <div class = "infoCard" id = "infoCard"> </div>
+            </div>
             <br></br>
         </div>
-
-
     </body>

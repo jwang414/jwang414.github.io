@@ -92,7 +92,7 @@ input[type=checkbox] {
     
     color: #4f6fad;
 }
-.buttons .submitButton{
+.submitButton{
     color: white;
     width: 100px;
     height: 30px;
@@ -156,7 +156,70 @@ input[type=checkbox] {
 #business_cell{
     width: 1500px;
 }
-#business_cell:hover{
-    width: 1500px;
-    color: #4f6fad;
+#business_ID_name{
+    width: 500px;
+    height: 500px;
+}
+
+.cardInfoContainer{
+    background-color: white; 
+}
+.infoCard{
+    padding: 30px;
+    width: 1000px;
+    text-align: left;
+    margin: auto;
+    
+}
+.infoCard h2{
+    text-align: center;
+}
+.detailsTable{
+    width: 100%;
+    table-layout: fixed;
+    background-color: white;
+    border-color: grey;
+    border-width: thick;
+}
+
+.detailsTable th{
+    font-size: x-large;
+    height: 50px;
+}
+.detailsTable tr{
+    
+}
+.threePictures{
+    display: table-cell;
+    border-color: lightgrey;
+    height: 30px;
+    border-style: solid;
+    border-width: thin;
+}
+.threePictures img{
+    object-fit: contain;
+    height: 500px;
+    width: 275px;
+    object-position: top;
+}
+#line{
+    color: #D3D3D3;
+}
+
+#closed{
+    background-color: red;
+    font-size: large;
+    color: black;
+    width: 100px;
+    height: 40px;
+    border-radius: 20px;
+
+}
+#open{
+    background-color: rgb(8, 108, 40);
+    font-size: large;
+    color: black;
+    width: 100px;
+    height: 40px;
+    border-radius: 20px;
 }
