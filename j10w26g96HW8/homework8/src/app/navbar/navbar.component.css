@@ -1,0 +1,21 @@
+#search{
+    font-size: large;
+    border-radius: 15%;
+    border-style: solid;
+    border-width: 2px;
+    background-color: transparent;
+}
+
+#bookings{
+    font-size: large;
+    background-color: transparent;
+    border-style: none;
+    
+}
+.navBar{
+    width: 100%;
+    text-align: end;
+    display: table-cell;
+    padding: 15px;
+    flex-wrap: wrap;
+}
