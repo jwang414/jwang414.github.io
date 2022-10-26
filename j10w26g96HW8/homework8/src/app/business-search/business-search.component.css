@@ -9,11 +9,15 @@
     border-color: lightgrey;
     border-radius: 25px;
     background-color: white;
-    padding: 40px;
+    padding: 20px;
+    margin: 0;
 }
 .asterisk{
     color: red;
 }
 .info_title{
     text-align: center;
+}
+#locationText{
+    padding-left: 10px;
 }
