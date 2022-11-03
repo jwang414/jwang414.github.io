@@ -3,7 +3,7 @@
         Business search
     </h3>
     <br>
-    <div class="infoField" >
+    <form [formGroup]="infoFormGroup" (ngSubmit)="formSubmit()" novalidate>
         <!-- keyword container -->
         <div class="container text-left">
             <div class="row">
@@ -12,7 +12,10 @@
                     <label for="keyword" class="form-label">
                         Keyword<span class="asterisk"> *</span>
                     </label>
-                    <input type="text" class="form-control form-control-lg" id="keyword">
+                    <input type="text" class="form-control form-control-lg" id="keyword" formControlName="keyword">
+                    <div *ngIf="noKeyword" class="form-control alert alert-danger">
+                        Please enter a keyword
+                    </div>
                 </div>
             </div>
         </div>
@@ -25,15 +28,15 @@
                     <label for="distance" class="form-label">
                         Distance
                     </label>
-                    <input type="text" class="form-control" id="distance">
+                    <input type="text" class="form-control" id="distance"  formControlName="distance">
                 </div>
                 <div class="col">
                     <!-- category field -->
                     <label for="category" class="form-label">
                         Category<span class="asterisk"> *</span>
                     </label>
-                    <select class="form-select" id="category">
-                        <option selected value = "all">Default</option>
+                    <select class="form-select" id="category"  formControlName="category">
+                        <option value="all">Default</option>
                         <option value="arts">Arts & Entertainment</option>
                         <option value="health">Health & Medical</option>
                         <option value="travel">Hotels & Travel</option>
@@ -52,11 +55,11 @@
                     <label for="location" class="form-label">
                         Location
                     </label>
-                    <input type="text" class="form-control" id="location">
+                    <input type="text" class="form-control" id="location"  formControlName="location">
                     <br>
                     <!-- checkbox -->
-                    <input class="form-check-input" type="checkbox">
-                    <label class="form-check-label" for="locationBoxCheck" id = "locationText">Auto-detect my location</label>
+                    <input class="form-check-input" type="checkbox"  formControlName="locationBoxCheck" (click)="locationBox()">
+                    <label class="form-check-label" for="locationBoxCheck" id = "locationText" >Auto-detect my location</label>
                 </div>
             </div>
         </div>
@@ -64,14 +67,13 @@
         <!-- button container -->
         <div class="container text-center">
             <div class="row justify-content-md-center">
-              <div class="col col-lg-2">
-                <button type="button" class="btn btn-danger" onclick = "formInfo()">Submit</button>
+              <div class="col-sm-2">
+                <button type="submit" class="btn btn-danger">Submit</button>
               </div>
-              <div class="col col-lg-2">
-                <button type="button" class="btn btn-primary" onclick = "clearInfo()">Clear</button>
+              <div class="col-sm-1">
+                <button type="button" class="btn btn-primary" (click)="clearInfo()">Clear</button>
               </div>
             </div>
         </div>
-    </div>
-      
+    </form>
 </div>
