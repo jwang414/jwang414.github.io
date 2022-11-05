@@ -7,14 +7,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ReqestServices {
-  private G_API = "&key=AIzaSyC9udwlUi7lFoB2YPa9zBwWDYC3tHtjxp4";
   private iP_INFO_URL = "https://ipinfo.io/json?token=032fc8e361cc24";
 
   constructor(private httpClient: HttpClient) { }
   
   getIp_Coordinates(): Observable<ip_Coordinates[]>{
     return this.httpClient.get<ip_Coordinates[]>(this.iP_INFO_URL);
-
   }
 }
 

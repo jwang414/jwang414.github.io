@@ -23,10 +23,9 @@
               "src/assets"
             ],
             "styles": [
-              
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": ["src/assets/business-search.js"]
           },
           "configurations": {
             "production": {

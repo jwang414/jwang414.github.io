@@ -2,6 +2,9 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ReqestServices } from '../services/request';
+declare function clearInfoJS(): any;
+declare function getGoogleLocation(locationRaw: string): any;
+declare function formValidation(): any;
 
 
 @Component({
@@ -28,7 +31,7 @@ export class BusinessSearchComponent implements OnInit{
 
   constructor(public fb: FormBuilder, private http: HttpClient, private _requestService: ReqestServices) { 
     this.infoFormGroup = new FormGroup({
-      keyword: new FormControl(''),
+      keyword: new FormControl('', [Validators.required]),
       distance: new FormControl(10),
       category: new FormControl('all'),
       location: new FormControl(''),
@@ -41,31 +44,41 @@ export class BusinessSearchComponent implements OnInit{
     
 
   }
-  clearInfo(){
-    this.infoFormGroup.reset(this.emptyFormGroup);
-    this.noKeyword = false;
-    this.noLocation = false;
-    this.infoFormGroup.controls['location'].enable();
-    
-  }
-
-  ipCoordinates(){
-    
-    var coordinates = this.ip_Coordinates.loc.toString()
-    coordinates = coordinates.split(",");
-    this.latitude = coordinates[0];
-    this.longitude = coordinates[1];
-    console.log(this.latitude);
-    console.log(this.longitude);
-  }
-
 
   formSubmit(){
     this.keywordlength();
     this.locationLength();
-    if (this.noLocation == false && this.noKeyword == false){
-      console.log(this.infoFormGroup)
+
+    if (!this.noKeyword&&!this.noLocation){
+      if (this.infoFormGroup.controls['locationBoxCheck'].value == false){
+        this.googleCoordinates();
+      }
+      else{
+        this.ipCoordinates();
+      }
+      console.log(this.latitude)
+      console.log(this.longitude)
     }
+  }
+  clearInfo(){
+    this.infoFormGroup.reset();
+    this.noKeyword = false;
+    this.noLocation = false;
+    this.infoFormGroup.controls['location'].enable();
+    clearInfoJS();
+  }
+
+  ipCoordinates(){
+    var coordinates = this.ip_Coordinates.loc.toString()
+    coordinates = coordinates.split(",");
+    this.latitude = coordinates[0];
+    this.longitude = coordinates[1];
+
+  }
+  googleCoordinates(){
+    var coordinates = getGoogleLocation(this.infoFormGroup.controls['location'].value);
+    this.latitude = coordinates[0];
+    this.longitude = coordinates[1];
   }
 
   locationBox(){
