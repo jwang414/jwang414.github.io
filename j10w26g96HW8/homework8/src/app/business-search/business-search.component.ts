@@ -71,11 +71,12 @@ export class BusinessSearchComponent implements OnInit{
 
     if (!this.noKeyword&&!this.noLocation){
       if (this.infoFormGroup.controls['locationBoxCheck'].value == false){
-        this.googleCoordinates();
+        await this.googleCoordinates()
       }
       else{
         this.ipCoordinates();
       }
+      
       update_parameters(this.latitude, this.longitude);
       this.businessList = await searchBusiness().then((data: any) =>{
         return data
@@ -119,8 +120,9 @@ export class BusinessSearchComponent implements OnInit{
     this.longitude = coordinates[1];
 
   }
-  googleCoordinates(){
-    var coordinates = getGoogleLocation(this.infoFormGroup.controls['location'].value);
+  async googleCoordinates(){
+    var coordinates = await getGoogleLocation(this.infoFormGroup.controls['location'].value);
+    
     this.latitude = coordinates[0];
     this.longitude = coordinates[1];
   }
@@ -158,23 +160,3 @@ export class BusinessSearchComponent implements OnInit{
   }
 
 }
-/*<div *ngIf="haveBusinessTable">
-    <table>
-        <thead>
-        <tr>
-            <th *ngFor = "let column of headers">
-                {{column}}
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of businessList; let i = index">
-                <td>{{i}}</td>
-                <td>{{item.name}}</td>
-                <td>{{item.image_url}}</td>
-                <td>{{item.rating}}</td>
-                <td>{{item.distance}}</td>
-            </tr>
-        </tbody>
-    </table>
-</div> */

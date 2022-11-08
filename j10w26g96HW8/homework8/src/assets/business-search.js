@@ -1,5 +1,4 @@
 
-const G_API = "&key=AIzaSyC9udwlUi7lFoB2YPa9zBwWDYC3tHtjxp4";
 const baseUrl = "http://localhost:3000";
 function clearInfoJS(){
     document.getElementById('keyword').value = "";
@@ -8,25 +7,6 @@ function clearInfoJS(){
     document.getElementById('location').value = "";
     document.getElementById("locationBoxCheck").checked = false;
     document.getElementById("location").required = true;
-}
-
-function getGoogleLocation(locationRaw){
-    var locationArray = locationRaw.split(/[ ,]+/);
-    var location_url = locationArray.join('+');
-    var req = new XMLHttpRequest();
-    var passedURL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + location_url + G_API;
-    req.onreadystatechange = function() {
-        if (200<=req.status<300 && req.readyState==4){
-            jsonResponse = JSON.parse(req.responseText);
-        }
-    }
-    
-    req.open("GET", passedURL, false);
-    req.send();
-    return [
-        JSON.stringify(jsonResponse["results"][0]["geometry"]["location"]['lat']), 
-        JSON.stringify(jsonResponse["results"][0]["geometry"]["location"]['lng'])
-        ]
 }
 
 parameters = {}
@@ -62,12 +42,27 @@ async function searchBusiness_Details(business_ID){
   var passed_url = baseUrl + "/search/details/" + business_ID;
   req.onreadystatechange = function() {
       if (req.readyState==4 && req.status==200){
-          businesses_list = JSON.parse(req.responseText);
+          businesses_detail = JSON.parse(req.responseText);
       }
   }
   req.open("GET", passed_url, false);
   req.send();
-  return businesses_list
+  return businesses_detail;
 
+}
+
+async function getGoogleLocation(locationRaw){
+  var locationArray = locationRaw.split(/[ ,]+/);
+  var location_url = locationArray.join('+');
+  var req = new XMLHttpRequest();
+  var passed_url = baseUrl + "/search/googleLocation/" + location_url;
+  req.onreadystatechange = function() {
+      if (req.readyState==4 && req.status==200){
+          location_data = JSON.parse(req.responseText);
+      }
+  }
+  req.open("GET", passed_url, false);
+  req.send();
+  return location_data;
 }
 

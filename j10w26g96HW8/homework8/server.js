@@ -2,6 +2,7 @@ const YELP_API = "Bearer 8QcHHs6tX63AN9N80u5hL284BRPTvlTKebHNJIKldN8l_7PBxxwSYK_
 const BUSINESS_ENDPOINT = "https://api.yelp.com/v3/businesses/search";
 const DETAILS_ENDPOINT = "https://api.yelp.com/v3/businesses/";
 const HEADERS = {'Authorization': YELP_API};
+const G_API = "&key=AIzaSyC9udwlUi7lFoB2YPa9zBwWDYC3tHtjxp4";
 parameters = {};
 
 const express = require('express')
@@ -70,7 +71,26 @@ search.route('/details/:businessId').get(async (req, res) =>{
     return res.json([]);
   }
 })
-//search googe
+//search google
+search.route('/googleLocation/:location').get(async (req, res) =>{
+  var location = req.params.location;
+  var coordinates;
+  try{
+    coordinates = await getGoogleLocation(location)
+  } catch(error){
+      console.log(error);
+      return res.status(400).json({
+          message: 'Failed to get business details'
+      });      
+  }
+  try{
+    return res.status(200).json(coordinates);
+  }
+  catch(error){
+    console.log(error);
+    return res.json([]);
+  }
+})
 
 
 server.listen(port, () => console.log('http://localhost:3000/'));
@@ -126,6 +146,22 @@ async function search_Business_details(business_ID){
   return details_result;
 }
 
+async function getGoogleLocation(location){
+  var gURL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + location + G_API;
+  var location_result = await axios({
+    method: 'get',
+    url: gURL,
+  })
+  .then(data => {
+    return data['data']
+  })
+  .catch(function (error) {
+    console.log(error);
+  })
+  return [
+    JSON.stringify(location_result["results"][0]["geometry"]["location"]['lat']), 
+    JSON.stringify(location_result["results"][0]["geometry"]["location"]['lng'])]
+}
 
 
 function business_parse(received_data) {
