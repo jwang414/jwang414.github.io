@@ -31,6 +31,7 @@ export class BusinessSearchComponent implements OnInit{
   headers = ["#", "Image", "Business Name", "Rating", "Distance(miles)"]
   businessTableElement: any;
   
+  
   //checkers
   noKeyword: boolean = false;
   noLocation: boolean = false;

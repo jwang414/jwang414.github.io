@@ -167,7 +167,8 @@
                     </div>
                     <div class="row">
                         <div class="col-sm h-50">
-                            <p>{{businessDetails.status}}</p>
+                            <p *ngIf="businessDetails.status == 'Open Now' " style="color:rgb(49, 214, 49)">{{businessDetails.status}}</p>
+                            <p *ngIf="businessDetails.status == 'Closed' " style="color:#FF0000">{{businessDetails.status}}</p>
                         </div>
                         <div class="col-sm h-50">
                             <a href={{businessDetails.url}} target="_blank" ><u>Business Link</u></a>
@@ -191,7 +192,7 @@
                     </div>
                 </div>
                 <br>
-                <div class = "container text-center" style="height: 600px; width: 600px">
+                <div class = "container text-center" style="max-height: 600px; width: 600px">
                     <div id="carouselImages" class="carousel carousel-dark slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active carousel_image_size">
