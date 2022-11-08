@@ -1,23 +1,15 @@
 
 const G_API = "&key=AIzaSyC9udwlUi7lFoB2YPa9zBwWDYC3tHtjxp4";
-
-
+const baseUrl = "http://localhost:3000";
 function clearInfoJS(){
     document.getElementById('keyword').value = "";
-    document.getElementById('category').value = "all";
+    document.getElementById('category').value = "All";
     document.getElementById('distance').value = "10";
     document.getElementById('location').value = "";
     document.getElementById("locationBoxCheck").checked = false;
     document.getElementById("location").required = true;
-
-
-    // document.getElementById("businessList").innerHTML = "";
-    // document.getElementById("infoCard").innerHTML = "";
-    // business_details = {};
-    // businesses_list = [];
-    // document.getElementById("infoCard").style.backgroundColor = "lightgrey";
-    // document.getElementById("locationField").disabled = false;
 }
+
 function getGoogleLocation(locationRaw){
     var locationArray = locationRaw.split(/[ ,]+/);
     var location_url = locationArray.join('+');
@@ -35,53 +27,47 @@ function getGoogleLocation(locationRaw){
         JSON.stringify(jsonResponse["results"][0]["geometry"]["location"]['lat']), 
         JSON.stringify(jsonResponse["results"][0]["geometry"]["location"]['lng'])
         ]
-    
 }
 
-/*<div>
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+parameters = {}
+function mile_to_meters(miles){
+  return miles*1609.344;
+}
 
-  <!-- Number Column -->
-  <ng-container matColumnDef="numberCol">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
-      #
-    </th>
-    <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-  </ng-container>
+function update_parameters(latitude, longitude){
+  parameters['term'] = document.getElementById("keyword").value;
+  parameters['category'] = document.getElementById("category").value;
+  var meters = mile_to_meters(parseFloat(document.getElementById("distance").value))
+  parameters['radius'] = meters;
+  parameters['latitude'] = latitude;
+  parameters['longitude'] = longitude;
+}
 
-  <!-- Images Column -->
-  <ng-container matColumnDef="imagesCol">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
-      Name
-    </th>
-    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-  </ng-container>
 
-  <!-- Weight Column -->
-  <ng-container matColumnDef="businessNameCol">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by weight">
-      Business Name
-    </th>
-    <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-  </ng-container>
+async function searchBusiness() {
+  var req = new XMLHttpRequest();
+  var passed_url = baseUrl + "/search?&terms=" + parameters['term'] + "&radius=" + parameters['radius'] + "&category=" + parameters['category'] + "&latitude=" + parameters['latitude']+ "&longitude=" + parameters['longitude'];
+  req.onreadystatechange = function() {
+      if (req.readyState==4 && req.status==200){
+          businesses_list = JSON.parse(req.responseText);
+      }
+  }
+  req.open("GET", passed_url, false);
+  req.send();
+  return businesses_list
+  
+}
+async function searchBusiness_Details(business_ID){
+  var req = new XMLHttpRequest();
+  var passed_url = baseUrl + "/search/details/" + business_ID;
+  req.onreadystatechange = function() {
+      if (req.readyState==4 && req.status==200){
+          businesses_list = JSON.parse(req.responseText);
+      }
+  }
+  req.open("GET", passed_url, false);
+  req.send();
+  return businesses_list
 
-  <!-- Symbol Column -->
-  <ng-container matColumnDef="ratingCol">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
-      Rating
-    </th>
-    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-  </ng-container>
+}
 
-  <!-- Distance Column -->
-  <ng-container matColumnDef="distanceCol">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
-      Distance (miles)
-    </th>
-    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
-</div> */

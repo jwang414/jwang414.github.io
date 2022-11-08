@@ -36,7 +36,7 @@
                         Category<span class="asterisk"> *</span>
                     </label>
                     <select class="form-select" id="category"  formControlName="category">
-                        <option value="all">Default</option>
+                        <option value="All">Default</option>
                         <option value="arts">Arts & Entertainment</option>
                         <option value="health">Health & Medical</option>
                         <option value="travel">Hotels & Travel</option>
@@ -80,50 +80,124 @@
         </div>
     </form>
 </div>
-
-<div class = "container businessInfo">
+<br>
+<br>
+<br>
+<div *ngIf="haveBusinessTable" class = "businessTable">
+    <table class="table table-striped">
+        <thead class = "tableHeader">
+        <tr>
+            <th *ngFor = "let column of headers">
+                {{column}}
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of businessList; let i = index">
+                <td class = "number_cell">{{i+1}}</td>
+                <td class = "image_cell"><img src="{{item.image_url}}"></td>
+                <td class = "business_cell"><a href="#businessInfo" (click) = "detailsSearch(item.id)">{{item.name}}</a></td>
+                <td class = "rating_cell">{{item.rating}}</td>
+                <td class = "distance_cell">{{item.distance}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div *ngIf="haveNoBusinessTable" class = "businessNoTable">
+    <h5 style="color: red">
+        No results avaliable
+    </h5>
+</div>
+<br>
+<br>
+<br>
+<div *ngIf="haveBusinessDetails" class = "container businessInfo">
     <h3 class = "info_title">
         Business Info
     </h3>
     <br>
     <div class="container text-center businessCard">
-        <div class="row align-items-center yellowRow">
-            <div class="col">
-            Business details
-            </div>
-            <div class="col">
-            Map Location
-            </div>
-            <div class="col">
-            Review
-            </div>
-        </div>
-    </div>
-    <div class="container text-center details">
-        <div class="row">
-            <div class="col-sm h-50 ">
-                <h5>Address</h5>
-            </div>
-            <div class="col-sm h-50">
-                <h5>Category</h5>
-            
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm h-50">
-                <h5>Phone</h5>
-            </div>
-            <div class="col-sm h-50">
-                <h5>Price range</h5>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm h-50">
-                <h5>Status</h5>
-            </div>
-            <div class="col-sm h-50">
-                <h5>Visit Yelp for More</h5>
-            </div>
-        </div>
+        <mat-tab-group mat-align-tabs="center">
+            <mat-tab label="Business Details"> 
+                <div class="container text-center details ">
+                    <div class="row">
+                        <div class="col-sm h-50 ">
+                            <h5>Address</h5>
+                        </div>
+                        <div class="col-sm h-50">
+                            <h5>Category</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm h-50 ">
+                            <p>{{businessDetails.location}}</p>
+                        </div>
+                        <div class="col-sm h-50">
+                            <p>{{businessDetails.category}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm h-50">
+                            <h5>Phone</h5>
+                        </div>
+                        <div class="col-sm h-50">
+                            <h5>Price range</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm h-50">
+                            <p>{{businessDetails.phone}}</p>
+                        </div>
+                        <div class="col-sm h-50">
+                            <p>{{businessDetails.price}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm h-50">
+                            <h5>Status</h5>
+                        </div>
+                        <div class="col-sm h-50">
+                            <h5>Visit Yelp for More</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm h-50">
+                            <p>{{businessDetails.status}}</p>
+                        </div>
+                        <div class="col-sm h-50">
+                            <a href={{businessDetails.url}} target="_blank" ><u>Business Link</u></a>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <div class = "container text-center">
+                    <div id="carouselImages" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active carousel_image_size">
+                                <img src="{{businessDetails_photo_first}}" class="img-fluid w-50 h-50">
+                            </div>  
+                            <div class="carousel-item carousel_image_size" *ngFor="let item of businessDetails_photo" >
+                                <img src="{{item}}" class="img-fluid w-50 h-50">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselImages" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselImages" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="Map Location"> 
+                google maps here
+            </mat-tab>
+            <mat-tab label="Reviews"> 
+                Content 3 
+            </mat-tab>
+          </mat-tab-group>
     </div>
 </div>

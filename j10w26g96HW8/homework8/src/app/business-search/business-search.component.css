@@ -28,9 +28,59 @@
     background-color: white;
 }
 
-.yellowRow{
+.mat-tab-group {
     background-color: rgb(255, 204, 0);
+}
+
+
+
+
+.businessTable{
     margin-left: auto;
     margin-right: auto;
-    height: 50px;
+    background-color: white;
+    width: 1500px;
+    border-radius: 25px;
+}
+
+.businessTable table{
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    border: 1px;
+    border-color: #ccc;
+}
+.businessTable img{
+    width: 150px;
+    height: 150px;
+    object-fit: fill;
+    padding: 5px;
+}
+.rowInfo{
+    background-color: white;
+}
+#number_cell{
+    width: 70px;
+}
+#rating_cell{
+    width: 200px;
+}
+#distance_cell{
+    width: 200px;
+}
+
+#image_cell{
+    width: 150px;
+    height: 150px;
+}
+#business_cell{
+    width: 1500px;
+}
+.businessNoTable{
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    width: 500px;
+    text-align: center;
+    border-radius: 100px;
 }
