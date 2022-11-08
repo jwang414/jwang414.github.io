@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ReqestServices } from '../services/request';
+
 declare function clearInfoJS(): any;
 declare function getGoogleLocation(locationRaw: string): any;
 declare function searchBusiness(): any;
@@ -26,7 +27,9 @@ export class BusinessSearchComponent implements OnInit{
   businessDetails: any = {};
   businessDetails_photo: any = [];
   businessDetails_photo_first: any;
+  businessReviews: any = [];
   headers = ["#", "Image", "Business Name", "Rating", "Distance(miles)"]
+  businessTableElement: any;
   
   //checkers
   noKeyword: boolean = false;
@@ -35,10 +38,21 @@ export class BusinessSearchComponent implements OnInit{
   haveBusinessDetails: boolean = false;
   haveNoBusinessTable: boolean = false;
 
+  //google maps
+  marker: any = {
+    position: {},
+  };
+  mapOptions: google.maps.MapOptions = {
+    mapTypeId: 'roadmap',
+    zoomControl: true,
+    scrollwheel: true,
+    disableDoubleClickZoom: false,
+    zoom : 13
+ }
+
   ngOnInit() {
     (this._requestService.getIp_Coordinates())
         .subscribe(data => this.ip_Coordinates = data);
-    
   }
 
   constructor(public fb: FormBuilder, private http: HttpClient, private _requestService: ReqestServices) { 
@@ -52,6 +66,7 @@ export class BusinessSearchComponent implements OnInit{
     this.emptyFormGroup = this.infoFormGroup.value;
     this.infoFormGroup.controls['keyword'].setValidators([Validators.required]);
     this.infoFormGroup.controls['location'].setValidators([Validators.required]);
+    this.businessTableElement = document.getElementById("#businessTable");
     
     
     /*business = {
@@ -88,7 +103,6 @@ export class BusinessSearchComponent implements OnInit{
         this.haveBusinessTable = true;
       }
     }
-    //document.getElementById('businessTable').scrollIntoView();
   }
 
   async detailsSearch(business_id: any){
@@ -99,11 +113,23 @@ export class BusinessSearchComponent implements OnInit{
     this.businessDetails_photo_first = this.businessDetails["image"][0];
     this.businessDetails_photo = this.businessDetails["image"].slice(1,);
     this.haveBusinessDetails = true;
+    this.businessReviews = this.businessDetails["all_reviews"];
+
+    this.mapOptions['center'] = {"lat": parseFloat(this.businessDetails["coordinates"][0]), "lng": parseFloat(this.businessDetails["coordinates"][1])};
+    this.marker['position'] = {"lat": parseFloat(this.businessDetails["coordinates"][0]), "lng": parseFloat(this.businessDetails["coordinates"][1])};
+    this.marker['label'] = {'color': 'red'}
+    //hide business table
+    this.haveBusinessTable = false;
+  }
+  //show business table and hide details
+  backbutton(){
+    this.haveBusinessTable = true;
+    this.haveBusinessDetails = false;
   }
 
 
   clearInfo(){
-    this.infoFormGroup.reset();
+    this.infoFormGroup.reset(this.emptyFormGroup);
     this.noKeyword = false;
     this.noLocation = false;
     this.haveBusinessTable = false;
@@ -126,6 +152,8 @@ export class BusinessSearchComponent implements OnInit{
     this.latitude = coordinates[0];
     this.longitude = coordinates[1];
   }
+
+  
 
   locationBox(){
     if (this.infoFormGroup.controls['locationBoxCheck'].value == false){
@@ -160,3 +188,9 @@ export class BusinessSearchComponent implements OnInit{
   }
 
 }
+
+/*<div>
+    <google-map height="450px" width="100%" [options]="mapOptions">
+        <map-marker [position]="marker.position" [label]="marker.label"></map-marker>
+    </google-map>
+</div> */

@@ -2,7 +2,7 @@ const YELP_API = "Bearer 8QcHHs6tX63AN9N80u5hL284BRPTvlTKebHNJIKldN8l_7PBxxwSYK_
 const BUSINESS_ENDPOINT = "https://api.yelp.com/v3/businesses/search";
 const DETAILS_ENDPOINT = "https://api.yelp.com/v3/businesses/";
 const HEADERS = {'Authorization': YELP_API};
-const G_API = "&key=AIzaSyC9udwlUi7lFoB2YPa9zBwWDYC3tHtjxp4";
+const G_API = "&key=AIzaSyA77sRAHkT4fcBoH-3R7UAAxOEcGoXAX3s";
 parameters = {};
 
 const express = require('express')
@@ -54,6 +54,7 @@ search.route('').get(async (req, res) => {
 search.route('/details/:businessId').get(async (req, res) =>{
   var businessId = req.params.businessId;
   var details;
+  var reviews;
   try{
     details = await search_Business_details(businessId)
   } catch(error){
@@ -63,8 +64,19 @@ search.route('/details/:businessId').get(async (req, res) =>{
       });      
   }
   try{
-    details = details_parse(details['data'])
-    return res.status(200).json(details);
+    reviews = await search_Business_reviews(businessId)
+  } catch(error){
+      console.log(error);
+      return res.status(400).json({
+          message: 'Failed to get business details'
+      });      
+  }
+
+  //parsing data and reviews
+  try{
+    details_reviews = details_parse(details['data']);
+    details_reviews["all_reviews"] = reviews_parse(reviews['data'])
+    return res.status(200).json(details_reviews);
   }
   catch(error){
     console.log(error);
@@ -143,9 +155,26 @@ async function search_Business_details(business_ID){
   .catch(function (error) {
     console.log(error);
   })
+  
   return details_result;
 }
 
+//reviews
+async function search_Business_reviews(business_ID){
+  var details_result = await axios({
+    method: 'get',
+    url: DETAILS_ENDPOINT + business_ID + "/reviews",
+    headers: HEADERS,
+  })
+  .then(data => {
+    return data
+  })
+  .catch(function (error) {
+    console.log(error);
+  })
+  
+  return details_result;
+}
 async function getGoogleLocation(location){
   var gURL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + location + G_API;
   var location_result = await axios({
@@ -220,9 +249,44 @@ function business_parse(received_data) {
 
   return business_list;
 }
-
+function reviews_parse(reviews_data) {
+  var all_reviews = [];
+  for (var i =0; i<reviews_data["reviews"].length; i+=1){
+    var name, rating, review, time;
+    currReview = {};
+    curr = reviews_data["reviews"][i];
+    try {
+      name = curr["user"]["name"];
+    } catch (e) {
+      name = "";
+    }
+    try {
+      review = curr["text"];
+    } catch (e) {
+      review = "";
+    }
+    try {
+      time = curr["time_created"];
+    } catch (e) {
+      time = "";
+    }
+    try {
+      rating = curr["rating"];
+    } catch (e) {
+      rating = "";
+    }
+    currReview = {
+      "name": name,
+      "review": review,
+      "time": time,
+      "rating": rating,
+    };
+    all_reviews.push(currReview)
+  }
+  return all_reviews;
+}
 function details_parse(details_data) {
-  var category, details, image, location, name, phone, price, status, temp_cat, transactions, url;
+  var category, details, image, location, name, phone, price, status, temp_cat, transactions, url, coordinates;
   details = {};
 
   try {
@@ -268,10 +332,10 @@ function details_parse(details_data) {
   try {
     temp_cat = [];
 
-    for (var cat, i = 0; i < details_data["categories"].length; i += 1) {
-      cat = details_data["categories"][i];
-      temp_cat.push(cat["title"]);
-    }
+  for (var cat, i = 0; i < details_data["categories"].length; i += 1) {
+    cat = details_data["categories"][i];
+    temp_cat.push(cat["title"]);
+  }
     category = temp_cat.join(" | ");
   } catch (e) {
     category = "";
@@ -300,6 +364,12 @@ function details_parse(details_data) {
   } catch (e) {
     url = "";
   }
+  try {
+    var coordinatesRaw = details_data["coordinates"];
+    coordinates = [coordinatesRaw["latitude"], coordinatesRaw["longitude"]]
+  } catch (e) {
+    coordinates = [];
+  }
 
   details["status"] = status;
   details["location"] = location;
@@ -310,6 +380,7 @@ function details_parse(details_data) {
   details["transactions"] = transactions;
   details["image"] = image;
   details["url"] = url;
+  details["coordinates"] = coordinates;
   return details;
 }
 

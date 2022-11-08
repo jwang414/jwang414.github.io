@@ -13,3 +13,12 @@ body {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-tab-header{
+    background-color: #f3cf04;
+    padding: 0%;
+    color: black;
+}
+.mat-tab{
+    padding: 0%;
+}
