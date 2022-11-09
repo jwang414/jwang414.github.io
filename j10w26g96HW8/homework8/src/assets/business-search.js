@@ -1,5 +1,5 @@
 
-const baseUrl = "https://homework8-367721.de.r.appspot.com/searches";
+const baseUrl = "http://localhost:3000";
 function clearInfoJS(){
     document.getElementById('keyword').value = "";
     document.getElementById('category').value = "All";
