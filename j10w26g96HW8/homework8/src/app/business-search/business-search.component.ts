@@ -31,7 +31,8 @@ export class BusinessSearchComponent implements OnInit{
   headers = ["#", "Image", "Business Name", "Rating", "Distance(miles)"]
   businessTableElement: any;
   
-  
+  //reservation form
+  reservationFromGroup: FormGroup;
   //checkers
   noKeyword: boolean = false;
   noLocation: boolean = false;
@@ -69,6 +70,14 @@ export class BusinessSearchComponent implements OnInit{
     this.infoFormGroup.controls['location'].setValidators([Validators.required]);
     this.businessTableElement = document.getElementById("#businessTable");
     
+    //reservation from
+    this.reservationFromGroup = new FormGroup({
+      email: new FormControl('',[Validators.required]),
+      date:  new FormControl('', [Validators.required]),
+      time_hour: new FormControl('', [Validators.required]),
+      time_min: new FormControl('', [Validators.required])
+    })
+    
     
     /*business = {
       "name": name,
@@ -80,7 +89,16 @@ export class BusinessSearchComponent implements OnInit{
     }; */
 
   }
-
+  saveReservation(){
+    if(!localStorage.getItem(('reservation'))){
+      localStorage.setItem('reservation',JSON.stringify([]));
+    }
+    var lsLength = localStorage.length;
+    var reservation = this.reservationFromGroup.value;
+    reservation["name"] = this.businessDetails['name'];
+    console.log(reservation)
+    localStorage.setItem(lsLength.toString(), JSON.stringify(reservation))
+  }
   async formSubmit(){
     this.keywordlength();
     this.locationLength();
@@ -118,7 +136,6 @@ export class BusinessSearchComponent implements OnInit{
 
     this.mapOptions['center'] = {"lat": parseFloat(this.businessDetails["coordinates"][0]), "lng": parseFloat(this.businessDetails["coordinates"][1])};
     this.marker['position'] = {"lat": parseFloat(this.businessDetails["coordinates"][0]), "lng": parseFloat(this.businessDetails["coordinates"][1])};
-    this.marker['label'] = {'color': 'red'}
     //hide business table
     this.haveBusinessTable = false;
   }
@@ -189,9 +206,3 @@ export class BusinessSearchComponent implements OnInit{
   }
 
 }
-
-/*<div>
-    <google-map height="450px" width="100%" [options]="mapOptions">
-        <map-marker [position]="marker.position" [label]="marker.label"></map-marker>
-    </google-map>
-</div> */

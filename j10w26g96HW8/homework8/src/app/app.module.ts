@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,17 +11,24 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GoogleMapsModule } from '@angular/google-maps'
+import { RouterModule, Routes } from '@angular/router';
+import { ReservationComponent } from './reservation/reservation.component';
 
+const appRoute: Routes = [
+  {path: "searches", component: BusinessSearchComponent},
+  {path: "bookings", component: ReservationComponent},
+  {path: "", redirectTo: "searches", pathMatch: 'full'},
+]
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    BusinessSearchComponent
+    BusinessSearchComponent,
+    ReservationComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     MatButtonModule,
     MatToolbarModule,
     ReactiveFormsModule,
@@ -30,6 +36,7 @@ import { GoogleMapsModule } from '@angular/google-maps'
     MatTabsModule,
     BrowserAnimationsModule,
     GoogleMapsModule,
+    RouterModule.forRoot(appRoute),
   ],
   providers: [],
   bootstrap: [AppComponent]

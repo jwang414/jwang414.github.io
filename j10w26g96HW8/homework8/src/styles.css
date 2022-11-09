@@ -22,3 +22,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-tab{
     padding: 0%;
 }
+.carousel{
+    margin:auto;
+    margin-bottom: 23%;
+    max-width: 400px;
+    max-height: 400px;
+}

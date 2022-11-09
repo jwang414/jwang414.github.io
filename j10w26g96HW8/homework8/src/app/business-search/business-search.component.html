@@ -93,10 +93,10 @@
         </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of businessList; let i = index">
+            <tr *ngFor="let item of businessList.slice(0, 10); let i = index">
                 <td class = "number_cell">{{i+1}}</td>
                 <td class = "image_cell"><img src="{{item.image_url}}"></td>
-                <td class = "business_cell"><a href="#businessInfo" (click) = "detailsSearch(item.id)">{{item.name}}</a></td>
+                <td class = "business_cell"><p (click) = "detailsSearch(item.id)">{{item.name}}</p></td>
                 <td class = "rating_cell">{{item.rating}}</td>
                 <td class = "distance_cell">{{item.distance}}</td>
             </tr>
@@ -175,6 +175,13 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col text-center">
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            Reserve Now
+                        </button>
+                    </div>
+                </div>
                 <div class="row m-3">
                     <div class="col text-center">
                         Share on:   
@@ -240,3 +247,83 @@
           </mat-tab-group>
     </div>
 </div>
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Reservation Form</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class = "container text-center">
+                <h4> {{businessDetails.name}}</h4>
+            </div>
+            <form class = "needs-validation" [formGroup]="reservationFromGroup" novalidate> 
+                <div class="form-row">
+                    <div class="col">
+                      <label for="email" class="form-label">Email</label>
+                      <input type="text" class="form-control" id="email" formControlName="email" required>
+                      <div class="invalid-feedback">
+                        Email is required
+                      </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                      <label for="email" class="form-label">Date</label>
+                      <input type="text" class="form-control" id="email" formControlName="date" required>
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                      <div class="invalid-feedback">
+                        Date is required
+                      </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="date" class="form-label">Time</label>
+                    <div class="form-group col-3">
+                      <input type="text" class="form-control" id="date" required formControlName="time_hour">
+                    </div>
+                    <div class="form-group col-3">
+                        <input type="text" class="form-control" id="date" required formControlName="time_min">
+                        <i class="bi bi-clock"></i>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col text-center">
+                        <script>
+                            (function () {
+                      'use strict'
+                    
+                      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                      var forms = document.querySelectorAll('.needs-validation')
+                    
+                      // Loop over them and prevent submission
+                      Array.prototype.slice.call(forms)
+                        .forEach(function (form) {
+                          form.addEventListener('submit', function (event) {
+                            if (!form.checkValidity()) {
+                              event.preventDefault()
+                              event.stopPropagation()
+                            }
+                    
+                            form.classList.add('was-validated')
+                          }, false)
+                        })
+                    })()
+                        </script>
+                        <button class="btn btn-danger" type="submit" (click) = "saveReservation()">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+    
+  </div>

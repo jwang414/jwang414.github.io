@@ -1,0 +1,19 @@
+runtime: nodejs16
+service: default
+
+instance_class: F2
+
+handlers:
+  - url: /
+    static_dir: dist/assets
+
+  - url: /
+    static_files: dist/index.html
+    upload: dist/index.html
+
+  - url: /searches
+    static_dir: dist/homework8
+
+  - url: /searches
+    static_files: dist/assets/business-search.js
+    upload: dist/assets/business-search.js

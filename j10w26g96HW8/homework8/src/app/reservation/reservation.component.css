@@ -1,0 +1,10 @@
+.tableStyle{
+    border-radius: 25px;
+    background-color: white;
+    width: 100%;
+}
+.reservations-div{
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
