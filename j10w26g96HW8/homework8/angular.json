@@ -25,7 +25,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": ["src/assets/business-search.js"]
+            "scripts": ["src/app/business-search.js"]
           },
           "configurations": {
             "production": {

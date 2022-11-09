@@ -18,6 +18,7 @@ const appRoute: Routes = [
   {path: "searches", component: BusinessSearchComponent},
   {path: "bookings", component: ReservationComponent},
   {path: "", redirectTo: "searches", pathMatch: 'full'},
+  {path: "searches", redirectTo: "", pathMatch: 'full'},
 ]
 
 @NgModule({

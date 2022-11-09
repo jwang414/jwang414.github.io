@@ -12,27 +12,32 @@ const axios = require('axios');
 
 const app = express()
 
+//const cors = require('cors');
+// const { json } = require('express');
+
+// app.use(cors());
+
 var bodyParser = require("body-parser");
 const { range } = require('rxjs');
 
 var distDir = __dirname + "/dist/homework8/";
 
-const port = process.env.PORT || 3000;
+const port = parseInt(process.env.PORT) || 3000;
 
 app.use(express.static(distDir));
 
 app.get('/', (req,res) => res.sendFile(path.join(__dirname)));
+app.get('/searches', (req,res) => res.sendFile(path.join(__dirname)));
 
-
-//app.use(express.static(distDir));
-const publicPath = path.join(__dirname, "/dist/homework8");
-
-app.use(express.static(publicPath));
-
-app.get('/', (req,res) => res.sendFile(path.join(__dirname)));
-
-const server = http.createServer(app);
+module.exports = app;
 //business search endpoint
+
+
+
+
+
+
+
 const search = express.Router();
 app.use('/search', search);
 search.route('').get(async (req, res) => {
