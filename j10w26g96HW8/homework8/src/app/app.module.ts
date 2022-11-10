@@ -15,10 +15,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { ReservationComponent } from './reservation/reservation.component';
 
 const appRoute: Routes = [
-  {path: "searches", component: BusinessSearchComponent},
+  {path: "search", component: BusinessSearchComponent},
   {path: "bookings", component: ReservationComponent},
-  {path: "", redirectTo: "searches", pathMatch: 'full'},
-  {path: "searches", redirectTo: "", pathMatch: 'full'},
+  {path: "", redirectTo: "search", pathMatch: 'full'},
+  {path: "search", redirectTo: "", pathMatch: 'full'},
 ]
 
 @NgModule({

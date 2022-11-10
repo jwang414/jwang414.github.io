@@ -97,7 +97,7 @@ export class BusinessSearchComponent implements OnInit{
     var reservation = this.reservationFromGroup.value;
     reservation["name"] = this.businessDetails['name'];
     console.log(reservation)
-    localStorage.setItem(lsLength.toString(), JSON.stringify(reservation))
+    localStorage.setItem(this.businessDetails['name'], JSON.stringify(reservation))
   }
   async formSubmit(){
     this.keywordlength();

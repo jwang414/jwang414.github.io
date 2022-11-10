@@ -15,6 +15,7 @@ export class ReservationComponent implements OnInit {
   
   ngOnInit(): void {
     for(var i=0; i<localStorage.length; i+=1){
+      console.log(localStorage.key(i))
       this.storageReservations.push(localStorage.getItem(i.toString()))
     }
     if (localStorage.length>0){

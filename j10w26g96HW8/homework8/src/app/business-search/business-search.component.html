@@ -92,8 +92,8 @@
             </th>
         </tr>
         </thead>
-        <tbody>
-            <tr *ngFor="let item of businessList.slice(0, 10); let i = index">
+        <tbody style="cursor: pointer">
+            <tr *ngFor="let item of businessList.slice(0, 10); let i = index" >
                 <td class = "number_cell">{{i+1}}</td>
                 <td class = "image_cell"><img src="{{item.image_url}}"></td>
                 <td class = "business_cell"><p (click) = "detailsSearch(item.id)">{{item.name}}</p></td>
