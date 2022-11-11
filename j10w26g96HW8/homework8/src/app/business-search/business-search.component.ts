@@ -72,10 +72,10 @@ export class BusinessSearchComponent implements OnInit{
     
     //reservation from
     this.reservationFromGroup = new FormGroup({
-      email: new FormControl('',[Validators.required]),
-      date:  new FormControl('', [Validators.required]),
-      time_hour: new FormControl('', [Validators.required]),
-      time_min: new FormControl('', [Validators.required])
+      email: new FormControl(''),
+      date:  new FormControl(''),
+      time_hour: new FormControl(''),
+      time_min: new FormControl('')
     })
     
     
@@ -90,15 +90,11 @@ export class BusinessSearchComponent implements OnInit{
 
   }
   saveReservation(){
-    if(!localStorage.getItem(('reservation'))){
-      localStorage.setItem('reservation',JSON.stringify([]));
-    }
-    var lsLength = localStorage.length;
     var reservation = this.reservationFromGroup.value;
     reservation["name"] = this.businessDetails['name'];
-    console.log(reservation)
     localStorage.setItem(this.businessDetails['name'], JSON.stringify(reservation))
   }
+
   async formSubmit(){
     this.keywordlength();
     this.locationLength();
@@ -128,7 +124,7 @@ export class BusinessSearchComponent implements OnInit{
     this.businessDetails = await searchBusiness_Details(business_id).then((data: any) =>{
       return data
     })
-    console.log(this.businessDetails);
+    //console.log(this.businessDetails);
     this.businessDetails_photo_first = this.businessDetails["image"][0];
     this.businessDetails_photo = this.businessDetails["image"].slice(1,);
     this.haveBusinessDetails = true;

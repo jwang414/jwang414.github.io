@@ -28,8 +28,10 @@ const port = parseInt(process.env.PORT) || 3000;
 
 app.use(express.static(distDir));
 
-app.get('/', (req,res) => res.sendFile(path.join(__dirname)));
-app.get('/searches', (req,res) => res.sendFile(path.join(distDir_index)));
+
+app.get('/*', (req, res) => res.sendFile(path.join(__dirname)));
+app.get('/search', (req, res) => res.sendFile(path.join(__dirname)));
+app.get('/bookings', (req, res) => res.sendFile(path.join(__dirname)));
 
 module.exports = app;
 //business search endpoint

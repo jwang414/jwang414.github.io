@@ -14,9 +14,10 @@ export class ReservationComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    for(var i=0; i<localStorage.length; i+=1){
-      console.log(localStorage.key(i))
-      this.storageReservations.push(localStorage.getItem(i.toString()))
+    for (var i = 0; i < localStorage.length; i++) {
+      //console.log(localStorage.key(i));
+      var data:any = localStorage.getItem(localStorage.key(i)!) ;
+      this.storageReservations.push(JSON.parse(data||null));
     }
     if (localStorage.length>0){
       this.haveReservations = true;
@@ -24,9 +25,20 @@ export class ReservationComponent implements OnInit {
     else{
       this.haveReservations = false;
     }
+    console.log(this.storageReservations);
   }
   reservationDelete(reservationName:string){
-    console.log("delte this reservation")
+    for (var i = 0; i < this.storageReservations.length; i++) {
+      if (this.storageReservations[i]['name'] == reservationName) {
+        this.storageReservations.splice(i, 1);
+        localStorage.removeItem(this.storageReservations[i]['name']);
+        break;
+      }
+    }
+    alert('Reservation cancelled!');
+    if (localStorage.length>0){
+      this.haveReservations = false;
+    }
   }
 
 }
